@@ -1,0 +1,31 @@
+A DFA generator will accept a 5 tuple that consists of a set of states,
+an alphabet set, a transition function, an initial state and a set of final states.
+It will return a DFA which in turn can determine whether a alphabet is in that language or not.
+Please ensure that the 5 tuple can be specified as a JSON object in a file.
+The transition function can be written as a transition table:
+ex:
+q1,1,q1
+q1,0,q2
+...
+...
+------------------------------------------------------------------------------------------------------------------------
+
+A DFA Machine consist of
+    setOfAlphabets,
+    initialState,
+    setOfStates,
+    setOfFinalStates,
+    transitionFunctions
+
+transitionFunctions
+  com.step.automata.TransitionFunction => com.step.automata.State and Alphabet
+
+Set of States
+  com.step.automata.State,Alphabet
+
+
+
+
+
+
+
