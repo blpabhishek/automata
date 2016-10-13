@@ -1,6 +1,8 @@
 package com.step.automata;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +11,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DFAMachineTest {
+
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     private DFAMachine getDfaMachine() {
         Set<String> alphabetSet = new HashSet<>();
@@ -43,5 +49,13 @@ public class DFAMachineTest {
     public void shouldBeAbleToRunADFAMachineAndRejectAString() {
         DFAMachine machine = getDfaMachine();
         assertFalse(machine.check("0001"));
+    }
+
+    @Test
+    public void shouldNotAbleToRecognizeAStringWhichContainsAlphabetWhichIsNotInAlphabetSet() {
+        DFAMachine machine = getDfaMachine();
+        exception.expect(IllegalAlphabetException.class);
+        exception.expectMessage("Alphabet 2 does not belongs to alphabet set");
+        assertFalse(machine.check("0021"));
     }
 }

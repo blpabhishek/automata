@@ -22,8 +22,15 @@ public class DFAMachine {
     public boolean check(String string) {
         for (int index = 0; index < string.length(); index++) {
             char alphabet = string.charAt(index);
+            validate(alphabet);
             currentState = transitionFunction.apply(currentState, alphabet);
         }
         return setOfFinalStates.contains(currentState);
+    }
+
+    private void validate(Character alphabet) {
+        if(!setOfAlphabets.contains(alphabet.toString())){
+            throw new IllegalAlphabetException(alphabet);
+        }
     }
 }
