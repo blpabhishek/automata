@@ -11,7 +11,7 @@ public class TransitionTest {
         State q2 = new State("q2");
         Transition transition = new Transition(q1, '0', q2);
 
-        State nextState = transition.nextState(q1, '0');
+        State nextState = transition.nextState('0');
         assertEquals(nextState,q2);
     }
 }

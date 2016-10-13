@@ -1,20 +1,29 @@
 package com.step.automata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransitionFunction {
-    private List<Transition> table = new ArrayList<>();
+    private Map<State, List<Transition>> table = new HashMap<>();
 
     public void addTransition(Transition transition) {
-        table.add(transition);
+        State state = transition.currentState();
+        List<Transition> transitions = table.get(state);
+        if (transitions == null) transitions = new ArrayList<>();
+        transitions.add(transition);
+        table.put(state, transitions);
     }
 
     public State apply(State currentState, char alphabet) {
         State state = null;
-        for (Transition transition : table) {
-            if (transition.isDefinedAt(currentState, alphabet)) //TODO:-Need a better way to get Next State
-                state = transition.nextState(currentState, alphabet);
+        List<Transition> transitions = table.get(currentState);
+        if (transitions == null)
+            throw new RuntimeException("Transitions Not Defined for this State");
+        for (Transition transition : transitions) {
+                state = transition.nextState(alphabet);
+                break;
         }
         return state;
     }

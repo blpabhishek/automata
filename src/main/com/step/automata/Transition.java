@@ -12,12 +12,16 @@ public class Transition {
     }
 
 
-    public State nextState(State currentState, char string) {
-        return isDefinedAt(currentState, string) ? nextState : null;
+    public State nextState(char alphabet) {
+        return isDefinedAt(alphabet) ? nextState : null;
     }
 
-    public boolean isDefinedAt(State currentState, char alphabet) {
-        return currentState.equals(this.currentState) && this.alphabet == (alphabet);
+    private boolean isDefinedAt(char alphabet) {
+        return this.alphabet == (alphabet);
+    }
+
+    public State currentState() {
+        return currentState;
     }
 
     @Override
