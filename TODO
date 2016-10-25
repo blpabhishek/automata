@@ -10,7 +10,7 @@ q1,0,q2
 ...
 ------------------------------------------------------------------------------------------------------------------------
 
-A DFA Machine consist of
+A DFA JSONMapper consist of
     setOfAlphabets,
     initialState,
     setOfStates,

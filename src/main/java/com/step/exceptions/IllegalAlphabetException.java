@@ -1,4 +1,4 @@
-package com.step.automata;
+package com.step.exceptions;
 
 public class IllegalAlphabetException extends RuntimeException {
     public IllegalAlphabetException(char message) {

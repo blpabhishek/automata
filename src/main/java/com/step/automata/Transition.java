@@ -24,6 +24,10 @@ public class Transition {
         return currentState;
     }
 
+    public char getAlphabet() {
+        return alphabet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,5 +47,14 @@ public class Transition {
         result = 31 * result + (int) alphabet;
         result = 31 * result + (nextState != null ? nextState.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Transition{" +
+                "currentState=" + currentState +
+                ", alphabet=" + alphabet +
+                ", nextState=" + nextState +
+                '}';
     }
 }
