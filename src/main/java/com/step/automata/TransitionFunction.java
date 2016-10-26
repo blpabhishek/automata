@@ -17,7 +17,7 @@ public class TransitionFunction {
         table.put(state, subTransition);
     }
 
-    public State apply(State currentState, char alphabet) {
+    public State apply(State currentState, char alphabet){
         State state;
         Map<Character, State> transitions = table.get(currentState);
         if (transitions == null)
@@ -30,8 +30,24 @@ public class TransitionFunction {
 
     public Set<State> apply(Set<State> currentState, char alphabet) {
         Set<State> states = new HashSet<>();
-
+        for (State state : currentState) {
+            Map<Character, State> transitions = table.get(state);
+            if(transitions!= null && hasEpsilon(transitions)) {
+                State e = transitions.get('e');
+                Map<Character, State> transition = table.get(e);
+                states.add(transition.get(alphabet));
+            }
+            State nextState;
+            try {
+                nextState = apply(state, alphabet);
+                states.add(nextState);
+            } catch (RuntimeException ignored){}
+        }
         return states;
+    }
+
+    private boolean hasEpsilon(Map<Character, State> transitions) {
+        return transitions.get('e')!=null;
     }
 
     @Override
