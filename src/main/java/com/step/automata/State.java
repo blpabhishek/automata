@@ -20,7 +20,7 @@ public class State {
 
     @Override
     public String toString() {
-        return "{com.step.automata.State}: " + state;
+        return  state;
     }
 
     @Override

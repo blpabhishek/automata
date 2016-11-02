@@ -28,14 +28,6 @@ public class FATestRunner {
         return true;
     }
 
-    private Set<State> mapToState(Set<String> states) {
-        Set<State> setOfStates = new HashSet<>();
-        for (String state : states) {
-            setOfStates.add(new State(state));
-        }
-        return setOfStates;
-    }
-
     public boolean validateFailCases() {
         DFAMachine dfaMachine = getDfaMachine();
         Set<String> failCases = faTestCases.getFailCases();
@@ -48,20 +40,11 @@ public class FATestRunner {
     }
 
     public DFAMachine getDfaMachine() {
+        State initialState = tupleObject.getInitialState();
         Set<String> alphabets = tupleObject.getAlphabets();
-        State initialState = new State(tupleObject.getInitialState());
-        Set<State> finalStates = mapToState(tupleObject.getFinalStates());
-        Set<String> stringSet = tupleObject.getStates();
-        Set<State> states = mapToState(stringSet);
-        Map<String, Map<String, String>> transitions = tupleObject.getTransitions();
-        TransitionFunction transitionFunction = new TransitionFunction();
-        for (String state : stringSet) {
-            Map<String, String> stringStringMap = transitions.get(state);
-            for (String alphabet : alphabets) {
-                String nextState = stringStringMap.get(alphabet);
-                transitionFunction.addTransition(new State(state), alphabet.charAt(0), new State(nextState));
-            }
-        }
+        Set<State> finalStates = tupleObject.getFinalStates();
+        Set<State> states = tupleObject.getStates();
+        TransitionFunction transitionFunction = tupleObject.getTransitions();
         return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
     }
 }

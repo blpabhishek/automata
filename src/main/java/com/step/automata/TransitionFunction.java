@@ -52,4 +52,20 @@ public class TransitionFunction {
     public String toString() {
         return String.format("TransitionFunction{%s}", table);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TransitionFunction that = (TransitionFunction) o;
+
+        return table != null ? table.equals(that.table) : that.table == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return table != null ? table.hashCode() : 0;
+    }
 }

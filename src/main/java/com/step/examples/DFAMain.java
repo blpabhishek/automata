@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DFAMain {
     public static void main(String[] args) throws IOException {
-        List<String> textFile = Files.readAllLines(Paths.get("resource/test_cases.json"), Charset.forName("UTF-8"));
+        List<String> textFile = Files.readAllLines(Paths.get("resource/dfa_cases.json"), Charset.forName("UTF-8"));
         JSONParser jsonParser = JSONParser.parse(textFile.get(0));
         List<FATestRunner> testRunners = jsonParser.getTestRunners();
         for (FATestRunner testRunner : testRunners) {
