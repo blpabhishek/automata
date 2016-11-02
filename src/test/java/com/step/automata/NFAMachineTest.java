@@ -24,9 +24,9 @@ public class NFAMachineTest {
         setOfFinalStates.add(stateQ2);
 
         TransitionFunction transitionFunction = new TransitionFunction();
-        transitionFunction.addTransition(new Transition(stateQ1, '0', stateQ1));
-        transitionFunction.addTransition(new Transition(stateQ1, '1', stateQ1));
-        transitionFunction.addTransition(new Transition(stateQ1, '1', stateQ2));
+        transitionFunction.addTransition(stateQ1, '0', stateQ1);
+        transitionFunction.addTransition(stateQ1, '1', stateQ1);
+        transitionFunction.addTransition(stateQ1, '1', stateQ2);
 
         return new NFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
     }
@@ -52,13 +52,13 @@ public class NFAMachineTest {
         setOfFinalStates.add(stateQ4);
 
         TransitionFunction transitionFunction = new TransitionFunction();
-        transitionFunction.addTransition(new Transition(stateQ1, '0', stateQ2));
-        transitionFunction.addTransition(new Transition(stateQ1, 'e', stateQ3));
-        transitionFunction.addTransition(new Transition(stateQ2, '1', stateQ2));
-        transitionFunction.addTransition(new Transition(stateQ2, '1', stateQ4));
-        transitionFunction.addTransition(new Transition(stateQ3, 'e', stateQ2));
-        transitionFunction.addTransition(new Transition(stateQ3, '0', stateQ4));
-        transitionFunction.addTransition(new Transition(stateQ4, '0', stateQ3));
+        transitionFunction.addTransition(stateQ1, '0', stateQ2);
+        transitionFunction.addTransition(stateQ1, 'e', stateQ3);
+        transitionFunction.addTransition(stateQ2, '1', stateQ2);
+        transitionFunction.addTransition(stateQ2, '1', stateQ4);
+        transitionFunction.addTransition(stateQ3, 'e', stateQ2);
+        transitionFunction.addTransition(stateQ3, '0', stateQ4);
+        transitionFunction.addTransition(stateQ4, '0', stateQ3);
 
         return new NFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
     }

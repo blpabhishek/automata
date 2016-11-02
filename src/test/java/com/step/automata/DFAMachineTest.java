@@ -32,10 +32,10 @@ public class DFAMachineTest {
         setOfFinalStates.add(stateQ2);
 
         TransitionFunction transitionFunction = new TransitionFunction();
-        transitionFunction.addTransition(new Transition(stateQ1, '0', stateQ2));
-        transitionFunction.addTransition(new Transition(stateQ1, '1', stateQ1));
-        transitionFunction.addTransition(new Transition(stateQ2, '0', stateQ2));
-        transitionFunction.addTransition(new Transition(stateQ2, '1', stateQ1));
+        transitionFunction.addTransition(stateQ1, '0', stateQ2);
+        transitionFunction.addTransition(stateQ1, '1', stateQ1);
+        transitionFunction.addTransition(stateQ2, '0', stateQ2);
+        transitionFunction.addTransition(stateQ2, '1', stateQ1);
 
         return new DFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
     }

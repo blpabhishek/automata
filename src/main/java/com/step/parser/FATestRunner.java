@@ -59,7 +59,7 @@ public class FATestRunner {
             Map<String, String> stringStringMap = transitions.get(state);
             for (String alphabet : alphabets) {
                 String nextState = stringStringMap.get(alphabet);
-                transitionFunction.addTransition(new Transition(new State(state), alphabet.charAt(0), new State(nextState)));
+                transitionFunction.addTransition(new State(state), alphabet.charAt(0), new State(nextState));
             }
         }
         return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);

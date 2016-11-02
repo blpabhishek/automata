@@ -8,13 +8,11 @@ import java.util.Set;
 public class TransitionFunction {
     private Map<State, Map<Character, State>> table = new HashMap<>();
 
-    public void addTransition(Transition transition) {
-        State state = transition.currentState();
-        char alphabet = transition.getAlphabet();
-        Map<Character, State> subTransition = table.get(state);
+    public void addTransition(State currentState, char alphabet, State nextState) {
+        Map<Character, State> subTransition = table.get(currentState);
         if (subTransition == null) subTransition = new HashMap<>();
-        subTransition.put(alphabet, transition.nextState(alphabet));
-        table.put(state, subTransition);
+        subTransition.put(alphabet, nextState);
+        table.put(currentState, subTransition);
     }
 
     public State apply(State currentState, char alphabet){
