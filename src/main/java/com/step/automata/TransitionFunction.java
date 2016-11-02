@@ -1,51 +1,35 @@
 package com.step.automata;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TransitionFunction {
-    private Map<State, Map<Character, State>> table = new HashMap<>();
+    private Map<State, Transition> table = new HashMap<>();
 
-    public void addTransition(State currentState, char alphabet, State nextState) {
-        Map<Character, State> subTransition = table.get(currentState);
-        if (subTransition == null) subTransition = new HashMap<>();
-        subTransition.put(alphabet, nextState);
-        table.put(currentState, subTransition);
+    public void addTransition(State currentState, Transition transition) {
+        table.put(currentState, transition);
     }
 
-    public State apply(State currentState, char alphabet){
-        State state;
-        Map<Character, State> transitions = table.get(currentState);
+    public State apply(State currentState, char alphabet) {
+        Transition transitions = table.get(currentState);
         if (transitions == null)
             throw new RuntimeException("Transitions Not Defined for :" + currentState);
-        state = transitions.get(alphabet);
-        if (state == null)
-            throw new RuntimeException("Transitions Not Defined on " + currentState + "for alphabet" + alphabet);
-        return state;
+        Set<State> nextStates = transitions.nextStates(alphabet);
+        if (nextStates.size() != 1)
+            throw new RuntimeException("Transitions Not Defined for :" + currentState);
+        for (State nextState : nextStates) {
+            return nextState;
+        }
+        return null;
     }
 
     public Set<State> apply(Set<State> currentState, char alphabet) {
         Set<State> states = new HashSet<>();
         for (State state : currentState) {
-            Map<Character, State> transitions = table.get(state);
-            if(transitions!= null && hasEpsilon(transitions)) {
-                State e = transitions.get('e');
-                Map<Character, State> transition = table.get(e);
-                states.add(transition.get(alphabet));
-            }
-            State nextState;
-            try {
-                nextState = apply(state, alphabet);
-                states.add(nextState);
-            } catch (RuntimeException ignored){}
+            Transition transitions = table.get(state);
+            Set<State> nextStates = transitions.nextStates(alphabet);
+            states.addAll(nextStates);
         }
         return states;
-    }
-
-    private boolean hasEpsilon(Map<Character, State> transitions) {
-        return transitions.get('e')!=null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.step.parser;
 
 import com.step.automata.State;
+import com.step.automata.Transition;
 import com.step.automata.TransitionFunction;
 
 import java.util.HashSet;
@@ -44,10 +45,12 @@ public class Tuple {
         for (String state : states) {
             Map<String, String> subTransition = transitions.get(state);
             if(subTransition!= null) {
+                Transition transition = new Transition();
                 for (String alphabet : alphabets) {
                     String nextState = subTransition.get(alphabet);
-                    transitionFunction.addTransition(new State(state), alphabet.charAt(0), new State(nextState));
+                    transition.defineNextState(alphabet.charAt(0), new State(nextState));
                 }
+                transitionFunction.addTransition(new State(state), transition);
             }
         }
         return transitionFunction;

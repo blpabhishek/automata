@@ -1,6 +1,7 @@
 package com.step.parser;
 
 import com.step.automata.State;
+import com.step.automata.Transition;
 import com.step.automata.TransitionFunction;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,8 +79,10 @@ public class TupleTest {
         State q0 = new State("q0");
         State q1 = new State("q1");
         TransitionFunction transitionFunction = new TransitionFunction();
-        transitionFunction.addTransition(q0,'0',q0);
-        transitionFunction.addTransition(q0,'1',q1);
+        Transition transition = new Transition();
+        transition.defineNextState('0',q0);
+        transition.defineNextState('1',q1);
+        transitionFunction.addTransition(q0,transition);
 
         assertEquals(tuple.getTransitions(), transitionFunction);
     }
