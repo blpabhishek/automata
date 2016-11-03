@@ -24,10 +24,20 @@ public class TransitionFunction {
 
     public Set<State> apply(Set<State> currentState, char alphabet) {
         Set<State> states = new HashSet<>();
+        Set<State> extrasStates = new HashSet<>();
         for (State state : currentState) {
             Transition transitions = table.get(state);
+            if(transitions.hasEpsilonTransition()){
+                Set<State> epsilonTransition = transitions.getEpsilonTransition();
+                extrasStates.addAll(epsilonTransition);
+            }
             Set<State> nextStates = transitions.nextStates(alphabet);
-            states.addAll(nextStates);
+            if (nextStates != null) states.addAll(nextStates);
+        }
+        for (State extrasState : extrasStates) {
+            Transition transitions = table.get(extrasState);
+            Set<State> nextStates = transitions.nextStates(alphabet);
+            if (nextStates != null) states.addAll(nextStates);
         }
         return states;
     }

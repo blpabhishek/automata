@@ -25,9 +25,9 @@ public class NFAMachineTest {
 
         TransitionFunction transitionFunction = new TransitionFunction();
         Transition transition = new Transition();
-        transition.defineNextState('0',stateQ1);
-        transition.defineNextState('1',stateQ1);
-        transition.defineNextState('1',stateQ2);
+        transition.defineNextState('0', stateQ1);
+        transition.defineNextState('1', stateQ1);
+        transition.defineNextState('1', stateQ2);
         transitionFunction.addTransition(stateQ1, transition);
 
         return new NFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
@@ -89,13 +89,27 @@ public class NFAMachineTest {
     @Test
     public void shouldBeAbleToRunANFAMachineAndAcceptAString() {
         NFAMachine machine = getNfaMachine();
-        assertTrue(machine.check("0000"));
-        assertFalse(machine.check("0001"));
+        assertFalse(machine.check("0000"));
+        assertTrue(machine.check("0001"));
     }
 
     @Test
     public void shouldBeAbleToRunANFAMachineAndAcceptAStringWhenStateMachineHasEpsilon() {
         NFAMachine machine = getDFAForEitherEvenNumberOfZeroesOrEvenNumberOfOnes();
-        assertTrue(machine.check("00"));
+        assertTrue(machine.check("000"));
+        assertTrue(machine.check("0000"));
+        assertTrue(machine.check("0101010"));
+        assertTrue(machine.check("00010"));
+        assertTrue(machine.check("11"));
+        assertTrue(machine.check("1111"));
+        assertTrue(machine.check("110101"));
+        assertTrue(machine.check("10101010"));
+
+        assertFalse(machine.check("0001"));
+        assertFalse(machine.check("1110"));
+        assertFalse(machine.check("111000"));
+        assertFalse(machine.check("01"));
+        assertFalse(machine.check("10"));
+        assertFalse(machine.check("000111"));
     }
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class Transition {
     private final Map<Character, Set<State>> transitions = new HashMap<>();
+    private Character epsilon = 'e';
 
     public void defineNextState(char alphabet, State state) {
         Set<State> stateSet = transitions.get(alphabet);
@@ -17,6 +18,14 @@ public class Transition {
 
     public Set<State> nextStates(char alphabet) {
         return transitions.get(alphabet);
+    }
+
+    public boolean hasEpsilonTransition() {
+        return transitions.get(epsilon) != null;
+    }
+
+    public Set<State> getEpsilonTransition() {
+        return transitions.get(epsilon);
     }
 
     @Override
