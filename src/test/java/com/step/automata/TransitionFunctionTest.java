@@ -42,8 +42,11 @@ public class TransitionFunctionTest {
         transitionFunction.addTransition(stateQ1, transitionQ1);
         transitionFunction.addTransition(stateQ2, transitionQ2);
 
-        System.out.println(transitionFunction);
-        Set<State> nextStates = transitionFunction.apply(currentStates, 'e');
-        System.out.println(nextStates);
+        Set<State> nextStates = transitionFunction.apply(currentStates, '0');
+
+        Set<State> expected = new HashSet<>();
+        expected.add(stateQ3);
+
+        assertEquals(expected,nextStates);
     }
 }

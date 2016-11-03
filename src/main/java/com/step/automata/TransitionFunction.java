@@ -10,36 +10,40 @@ public class TransitionFunction {
     }
 
     public State apply(State currentState, char alphabet) {
-        Transition transitions = table.get(currentState);
-        if (transitions == null)
-            throw new RuntimeException("Transitions Not Defined for :" + currentState);
+        Transition transitions = getTransition(currentState);
         Set<State> nextStates = transitions.nextStates(alphabet);
-        if (nextStates.size() != 1)
-            throw new RuntimeException("Transitions Not Defined for :" + currentState);
-        for (State nextState : nextStates) {
-            return nextState;
-        }
+        for (State nextState : nextStates) return nextState;
         return null;
     }
 
     public Set<State> apply(Set<State> currentState, char alphabet) {
         Set<State> states = new HashSet<>();
-        Set<State> extrasStates = new HashSet<>();
-        for (State state : currentState) {
-            Transition transitions = table.get(state);
-            if(transitions.hasEpsilonTransition()){
-                Set<State> epsilonTransition = transitions.getEpsilonTransition();
-                extrasStates.addAll(epsilonTransition);
-            }
+        Set<State> updatedCurrentStates = resolveEpsilonTransition(currentState);
+        for (State extrasState : updatedCurrentStates) {
+            Transition transitions = getTransition(extrasState);
             Set<State> nextStates = transitions.nextStates(alphabet);
-            if (nextStates != null) states.addAll(nextStates);
-        }
-        for (State extrasState : extrasStates) {
-            Transition transitions = table.get(extrasState);
-            Set<State> nextStates = transitions.nextStates(alphabet);
-            if (nextStates != null) states.addAll(nextStates);
+            states.addAll(nextStates);
         }
         return states;
+    }
+
+    private Set<State> resolveEpsilonTransition(Set<State> currentState) {
+        Set<State> states = new HashSet<>();
+        for (State state : currentState) {
+            Transition transitions = getTransition(state);
+            if (transitions.hasEpsilonTransition()) {
+                Set<State> epsilonTransition = transitions.getEpsilonTransition();
+                states.addAll(epsilonTransition);
+            }
+        }
+        states.addAll(currentState);
+        return states;
+    }
+
+    private Transition getTransition(State state) {
+        if (table.containsKey(state))
+            return table.get(state);
+        return new Transition();
     }
 
     @Override

@@ -11,21 +11,25 @@ public class Transition {
 
     public void defineNextState(char alphabet, State state) {
         Set<State> stateSet = transitions.get(alphabet);
-        if (transitions.get(alphabet) == null) stateSet = new HashSet<>();
+        if (!transitions.containsKey(alphabet)) stateSet = new HashSet<>();
         stateSet.add(state);
         transitions.put(alphabet, stateSet);
     }
 
     public Set<State> nextStates(char alphabet) {
-        return transitions.get(alphabet);
+        if (transitions.containsKey(alphabet))
+            return transitions.get(alphabet);
+        return new HashSet<>();
     }
 
     public boolean hasEpsilonTransition() {
-        return transitions.get(epsilon) != null;
+        return transitions.containsKey(epsilon);
     }
 
     public Set<State> getEpsilonTransition() {
-        return transitions.get(epsilon);
+        if (transitions.containsKey(epsilon))
+            return transitions.get(epsilon);
+        return new HashSet<>();
     }
 
     @Override
