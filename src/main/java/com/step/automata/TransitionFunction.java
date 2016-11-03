@@ -19,8 +19,8 @@ public class TransitionFunction {
     public Set<State> apply(Set<State> currentState, char alphabet) {
         Set<State> states = new HashSet<>();
         Set<State> updatedCurrentStates = resolveEpsilonTransition(currentState);
-        for (State extrasState : updatedCurrentStates) {
-            Transition transitions = getTransition(extrasState);
+        for (State state : updatedCurrentStates) {
+            Transition transitions = getTransition(state);
             Set<State> nextStates = transitions.nextStates(alphabet);
             states.addAll(nextStates);
         }
@@ -33,7 +33,8 @@ public class TransitionFunction {
             Transition transitions = getTransition(state);
             if (transitions.hasEpsilonTransition()) {
                 Set<State> epsilonTransition = transitions.getEpsilonTransition();
-                states.addAll(epsilonTransition);
+                Set<State> stateSet = resolveEpsilonTransition(epsilonTransition);
+                states.addAll(stateSet);
             }
         }
         states.addAll(currentState);
