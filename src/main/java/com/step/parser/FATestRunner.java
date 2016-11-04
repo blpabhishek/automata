@@ -1,8 +1,11 @@
 package com.step.parser;
 
-import com.step.automata.*;
+import com.step.automata.DFAMachine;
+import com.step.automata.State;
+import com.step.automata.States;
+import com.step.automata.TransitionFunction;
 
-import java.util.*;
+import java.util.Set;
 
 public class FATestRunner {
     private final String name;
@@ -42,8 +45,8 @@ public class FATestRunner {
     public DFAMachine getDfaMachine() {
         State initialState = tupleObject.getInitialState();
         Set<String> alphabets = tupleObject.getAlphabets();
-        Set<State> finalStates = tupleObject.getFinalStates();
-        Set<State> states = tupleObject.getStates();
+        States finalStates = tupleObject.getFinalStates();
+        States states = tupleObject.getStates();
         TransitionFunction transitionFunction = tupleObject.getTransitions();
         return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
     }

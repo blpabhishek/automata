@@ -1,35 +1,33 @@
 package com.step.automata;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Transition {
-    private final Map<Character, Set<State>> transitions = new HashMap<>();
+    private final Map<Character, States> transitions = new HashMap<>();
     private Character epsilon = 'e';
 
     public void defineNextState(char alphabet, State state) {
-        Set<State> stateSet = transitions.get(alphabet);
-        if (!transitions.containsKey(alphabet)) stateSet = new HashSet<>();
+        States stateSet = transitions.get(alphabet);
+        if (!transitions.containsKey(alphabet)) stateSet = new States();
         stateSet.add(state);
         transitions.put(alphabet, stateSet);
     }
 
-    public Set<State> nextStates(char alphabet) {
+    public States nextStates(char alphabet) {
         if (transitions.containsKey(alphabet))
             return transitions.get(alphabet);
-        return new HashSet<>();
+        return new States();
     }
 
     public boolean hasEpsilonTransition() {
         return transitions.containsKey(epsilon);
     }
 
-    public Set<State> getEpsilonTransition() {
+    public States getEpsilonTransition() {
         if (transitions.containsKey(epsilon))
             return transitions.get(epsilon);
-        return new HashSet<>();
+        return new States();
     }
 
     @Override

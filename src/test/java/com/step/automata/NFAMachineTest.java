@@ -16,11 +16,11 @@ public class NFAMachineTest {
 
         State stateQ1 = new State("q1");
         State stateQ2 = new State("q2");
-        Set<State> setOfStates = new HashSet<>();
+        States setOfStates = new States();
         setOfStates.add(stateQ1);
         setOfStates.add(stateQ2);
 
-        Set<State> setOfFinalStates = new HashSet<>();
+        States setOfFinalStates = new States();
         setOfFinalStates.add(stateQ2);
 
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -44,14 +44,14 @@ public class NFAMachineTest {
         State stateQ4 = new State("q4");
         State stateQ5 = new State("q5");
 
-        Set<State> setOfStates = new HashSet<>();
+        States setOfStates = new States();
         setOfStates.add(stateQ1);
         setOfStates.add(stateQ2);
         setOfStates.add(stateQ3);
         setOfStates.add(stateQ4);
         setOfStates.add(stateQ5);
 
-        Set<State> setOfFinalStates = new HashSet<>();
+        States setOfFinalStates = new States();
         setOfFinalStates.add(stateQ2);
         setOfFinalStates.add(stateQ4);
 
@@ -99,14 +99,14 @@ public class NFAMachineTest {
         State stateQ6 = new State("q6");
         State stateQ7 = new State("q7");
 
-        Set<State> setOfStates = new HashSet<>();
+        States setOfStates = new States();
         setOfStates.add(stateQ1);
         setOfStates.add(stateQ2);
         setOfStates.add(stateQ3);
         setOfStates.add(stateQ4);
         setOfStates.add(stateQ5);
 
-        Set<State> setOfFinalStates = new HashSet<>();
+        States setOfFinalStates = new States();
         setOfFinalStates.add(stateQ7);
         setOfFinalStates.add(stateQ6);
 

@@ -1,6 +1,8 @@
 package com.step.automata;
 
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TransitionFunction {
     private Map<State, Transition> table = new HashMap<>();
@@ -11,29 +13,29 @@ public class TransitionFunction {
 
     public State apply(State currentState, char alphabet) {
         Transition transitions = getTransition(currentState);
-        Set<State> nextStates = transitions.nextStates(alphabet);
+        States nextStates = transitions.nextStates(alphabet);
         for (State nextState : nextStates) return nextState;
         return null;
     }
 
-    public Set<State> apply(Set<State> currentState, char alphabet) {
-        Set<State> states = new HashSet<>();
-        Set<State> updatedCurrentStates = resolveEpsilonTransition(currentState);
+    public States apply(States currentState, char alphabet) {
+        States states = new States();
+        States updatedCurrentStates = resolveEpsilonTransition(currentState);
         for (State state : updatedCurrentStates) {
             Transition transitions = getTransition(state);
-            Set<State> nextStates = transitions.nextStates(alphabet);
+            States nextStates = transitions.nextStates(alphabet);
             states.addAll(nextStates);
         }
         return states;
     }
 
-    private Set<State> resolveEpsilonTransition(Set<State> currentState) {
-        Set<State> states = new HashSet<>();
+    private States resolveEpsilonTransition(States currentState) {
+        States states = new States();
         for (State state : currentState) {
             Transition transitions = getTransition(state);
             if (transitions.hasEpsilonTransition()) {
-                Set<State> epsilonTransition = transitions.getEpsilonTransition();
-                Set<State> stateSet = resolveEpsilonTransition(epsilonTransition);
+                States epsilonTransition = transitions.getEpsilonTransition();
+                States stateSet = resolveEpsilonTransition(epsilonTransition);
                 states.addAll(stateSet);
             }
         }

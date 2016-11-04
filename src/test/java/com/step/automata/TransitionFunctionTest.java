@@ -2,9 +2,6 @@ package com.step.automata;
 
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
 
 public class TransitionFunctionTest {
@@ -27,7 +24,7 @@ public class TransitionFunctionTest {
         State stateQ3 = new State("q3");
         State stateQ4 = new State("q4");
 
-        Set<State> currentStates = new HashSet<>();
+        States currentStates = new States();
         currentStates.add(stateQ1);
         
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -42,9 +39,9 @@ public class TransitionFunctionTest {
         transitionFunction.addTransition(stateQ1, transitionQ1);
         transitionFunction.addTransition(stateQ2, transitionQ2);
 
-        Set<State> nextStates = transitionFunction.apply(currentStates, '0');
+        States nextStates = transitionFunction.apply(currentStates, '0');
 
-        Set<State> expected = new HashSet<>();
+        States expected = new States();
         expected.add(stateQ3);
 
         assertEquals(expected,nextStates);

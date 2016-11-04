@@ -17,11 +17,11 @@ public class TransitionTest {
         transition.defineNextState('1', q2);
         transition.defineNextState('0', q2);
 
-        Set<State> set = new HashSet<>();
+        States set = new States();
         set.add(q1);
         set.add(q2);
 
-        Set<State> stateSet = transition.nextStates('1');
+        States stateSet = transition.nextStates('1');
         assertEquals(set, stateSet);
     }
 
@@ -35,11 +35,11 @@ public class TransitionTest {
         transition.defineNextState('e', q2);
         transition.defineNextState('0', q2);
 
-        Set<State> set = new HashSet<>();
+        States set = new States();
         set.add(q1);
         set.add(q2);
 
-        Set<State> stateSet = transition.getEpsilonTransition();
+        States stateSet = transition.getEpsilonTransition();
         assertEquals(set, stateSet);
 
     }

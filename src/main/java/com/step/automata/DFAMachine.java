@@ -8,17 +8,17 @@ import java.util.Set;
 public class DFAMachine {
 
 
-    private final Set<String> setOfAlphabets;
-    private final Set<State> setOfStates;
-    private final Set<State> setOfFinalStates;
+    private final Set<String> alphabets;
+    private final States allStates;
+    private final States finalStates;
     private final TransitionFunction transitionFunction;
     private final State initialState;
 
-    public DFAMachine(State initialState, TransitionFunction transitionFunction, Set<State> setOfFinalStates, Set<State> setOfStates, Set<String> setOfAlphabets) {
+    public DFAMachine(State initialState, TransitionFunction transitionFunction, States finalStates, States allStates, Set<String> alphabets) {
         this.transitionFunction = transitionFunction;
-        this.setOfFinalStates = setOfFinalStates;
-        this.setOfStates = setOfStates;
-        this.setOfAlphabets = setOfAlphabets;
+        this.finalStates = finalStates;
+        this.allStates = allStates;
+        this.alphabets = alphabets;
         this.initialState = initialState;
     }
 
@@ -30,17 +30,17 @@ public class DFAMachine {
             currentState = transitionFunction.apply(currentState, alphabet);
             validate(currentState);
         }
-        return setOfFinalStates.contains(currentState);
+        return finalStates.contains(currentState);
     }
 
     private void validate(Character alphabet) {
-        if (!setOfAlphabets.contains(alphabet.toString())) {
+        if (!alphabets.contains(alphabet.toString())) {
             throw new IllegalAlphabetException(alphabet);
         }
     }
 
     private void validate(State state) {
-        if (!setOfStates.contains(state)) {
+        if (!allStates.contains(state)) {
             throw new IllegalStateException(state);
         }
     }

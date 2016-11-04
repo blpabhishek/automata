@@ -1,26 +1,24 @@
 package com.step.automata;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class NFAMachine {
-    private final State initialState;
+    private final Set<String> alphabets;
+    private final States allStates;
+    private final States finalStates;
     private final TransitionFunction transitionFunction;
-    private final Set<State> setOfFinalStates;
-    private final Set<State> setOfStates;
-    private final Set<String> alphabetSet;
+    private final State initialState;
 
-    public NFAMachine(State initialState, TransitionFunction transitionFunction, Set<State> setOfFinalStates, Set<State> setOfStates, Set<String> alphabetSet) {
-
-        this.initialState = initialState;
+    public NFAMachine(State initialState, TransitionFunction transitionFunction, States finalStates, States allStates, Set<String> alphabets) {
         this.transitionFunction = transitionFunction;
-        this.setOfFinalStates = setOfFinalStates;
-        this.setOfStates = setOfStates;
-        this.alphabetSet = alphabetSet;
+        this.finalStates = finalStates;
+        this.allStates = allStates;
+        this.alphabets = alphabets;
+        this.initialState = initialState;
     }
 
     public boolean check(String string) {
-        Set<State> currentState = new HashSet<>();
+        States currentState = new States();
         currentState.add(initialState);
         for (int index = 0; index < string.length(); index++) {
             char alphabet = string.charAt(index);
@@ -28,15 +26,10 @@ public class NFAMachine {
             currentState = transitionFunction.apply(currentState, alphabet);
             //validate(currentState);
         }
-        return isOnFinalState(currentState, setOfFinalStates);
+        return isOnFinalState(currentState);
     }
 
-    private boolean isOnFinalState(Set<State> currentState, Set<State> setOfFinalStates) {
-        for (State finalState : setOfFinalStates) {
-            if (currentState.contains(finalState)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isOnFinalState(States currentState) {
+        return !finalStates.intersection(currentState).isEmpty();
     }
 }

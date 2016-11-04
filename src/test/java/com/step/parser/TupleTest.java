@@ -1,6 +1,7 @@
 package com.step.parser;
 
 import com.step.automata.State;
+import com.step.automata.States;
 import com.step.automata.Transition;
 import com.step.automata.TransitionFunction;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class TupleTest {
         State q0 = new State("q0");
         State q1 = new State("q1");
 
-        Set<State> setOfStates = new HashSet<>();
+        States setOfStates = new States();
         setOfStates.add(q0);
         setOfStates.add(q1);
 
@@ -68,7 +69,7 @@ public class TupleTest {
     @Test
     public void getFinalStates() {
         State q0 = new State("q0");
-        Set<State> setOfFinalStates = new HashSet<>();
+        States setOfFinalStates = new States();
         setOfFinalStates.add(q0);
 
         assertEquals(tuple.getFinalStates(), setOfFinalStates);

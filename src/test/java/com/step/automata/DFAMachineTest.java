@@ -24,11 +24,11 @@ public class DFAMachineTest {
 
         State stateQ1 = new State("q1");
         State stateQ2 = new State("q2");
-        Set<State> setOfStates = new HashSet<>();
+        States setOfStates = new States();
         setOfStates.add(stateQ1);
         setOfStates.add(stateQ2);
 
-        Set<State> setOfFinalStates = new HashSet<>();
+        States setOfFinalStates = new States();
         setOfFinalStates.add(stateQ2);
 
         TransitionFunction transitionFunction = new TransitionFunction();

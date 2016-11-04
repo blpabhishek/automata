@@ -1,10 +1,10 @@
 package com.step.parser;
 
 import com.step.automata.State;
+import com.step.automata.States;
 import com.step.automata.Transition;
 import com.step.automata.TransitionFunction;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class Tuple {
         this.transitions = transitions;
     }
 
-    public Set<State> getStates() {
+    public States getStates() {
         return mapToState(states);
     }
 
@@ -36,7 +36,7 @@ public class Tuple {
         return new State(initialState);
     }
 
-    public Set<State> getFinalStates() {
+    public States getFinalStates() {
         return mapToState(finalStates);
     }
 
@@ -56,8 +56,8 @@ public class Tuple {
         return transitionFunction;
     }
 
-    private Set<State> mapToState(Set<String> states) {
-        Set<State> setOfStates = new HashSet<>();
+    private States mapToState(Set<String> states) {
+        States setOfStates = new States();
         for (String state : states) {
             setOfStates.add(new State(state));
         }
