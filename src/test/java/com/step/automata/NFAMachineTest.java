@@ -9,7 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class NFAMachineTest {
-    private NFAMachine getNfaMachine() {
+    private NFAMachine getNfaMachineForOddNoOfZeroes() {
         Set<String> alphabetSet = new HashSet<>();
         alphabetSet.add("0");
         alphabetSet.add("1");
@@ -24,11 +24,16 @@ public class NFAMachineTest {
         setOfFinalStates.add(stateQ2);
 
         TransitionFunction transitionFunction = new TransitionFunction();
-        Transition transition = new Transition();
-        transition.defineNextState('0', stateQ1);
-        transition.defineNextState('1', stateQ1);
-        transition.defineNextState('1', stateQ2);
-        transitionFunction.addTransition(stateQ1, transition);
+        Transition transitionQ1 = new Transition();
+        transitionQ1.defineNextState('0', stateQ2);
+        transitionQ1.defineNextState('1', stateQ1);
+
+        Transition transitionQ2 = new Transition();
+        transitionQ2.defineNextState('0', stateQ1);
+        transitionQ2.defineNextState('1', stateQ2);
+
+        transitionFunction.addTransition(stateQ1, transitionQ1);
+        transitionFunction.addTransition(stateQ2, transitionQ2);
 
         return new NFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
     }
@@ -63,7 +68,7 @@ public class NFAMachineTest {
 
         Transition transitionQ2 = new Transition();
         transitionQ2.defineNextState('0', stateQ3);
-        transitionQ2.defineNextState( '1', stateQ2);
+        transitionQ2.defineNextState('1', stateQ2);
 
         Transition transitionQ3 = new Transition();
         transitionQ3.defineNextState('0', stateQ2);
@@ -105,20 +110,14 @@ public class NFAMachineTest {
         setOfStates.add(stateQ3);
         setOfStates.add(stateQ4);
         setOfStates.add(stateQ5);
+        setOfStates.add(stateQ6);
+        setOfStates.add(stateQ7);
 
         States setOfFinalStates = new States();
         setOfFinalStates.add(stateQ7);
         setOfFinalStates.add(stateQ6);
 
         TransitionFunction transitionFunction = new TransitionFunction();
-
-        /*
-        {\"q1\":{\"e\":[\"q2\",\"q4\"]},
-        \"q2\":{\"0\":[\"q2\"],\"e\":[\"q3\"]},
-        \"q3\":{\"1\":[\"q3\"],\"e\":[\"q6\"]},
-        \"q4\":{\"1\":[\"q4\"],\"e\":[\"q5\"]},
-        \"q5\":{\"0\":[\"q5\"],\"e\":[\"q7\"]}},
-         */
 
         Transition transitionQ1 = new Transition();
         transitionQ1.defineNextState('e', stateQ2);
@@ -151,9 +150,21 @@ public class NFAMachineTest {
 
     @Test
     public void shouldBeAbleToRunANFAMachineAndAcceptAString() {
-        NFAMachine machine = getNfaMachine();
+        NFAMachine machine = getNfaMachineForOddNoOfZeroes();
+
+        assertTrue(machine.check("0"));
+        assertTrue(machine.check("000"));
+        assertTrue(machine.check("00000"));
+        assertTrue(machine.check("10"));
+        assertTrue(machine.check("101010"));
+        assertTrue(machine.check("010101"));
+
+        assertFalse(machine.check("00"));
         assertFalse(machine.check("0000"));
-        assertTrue(machine.check("0001"));
+        assertFalse(machine.check("1001"));
+        assertFalse(machine.check("1010"));
+        assertFalse(machine.check("001100"));
+
     }
 
     @Test
@@ -179,6 +190,7 @@ public class NFAMachineTest {
     @Test
     public void shouldBeAbleToRecognizeTheStringWithMultipleEpsilons() {
         NFAMachine machine = getDFAFor0_1_or1_0_WithExtraEpsilonsWhere_RepresentsACleanStar();
+        assertTrue(machine.check(""));
         assertTrue(machine.check("0"));
         assertTrue(machine.check("1"));
         assertTrue(machine.check("00"));
@@ -196,22 +208,5 @@ public class NFAMachineTest {
         assertFalse(machine.check("00110"));
         assertFalse(machine.check("0101"));
         assertFalse(machine.check("1010"));
-             /*
-    {\"name\":\"0*1* or 1*0* with extra epsilons\"
-    ,\"type\":\"nfa\",
-    \"tuple\":{\"states\":[\"q1\",\"q3\",\"q7\",\"q2\",\"q5\",\"q6\",\"q4\"],
-    \"alphabets\":[\"1\",\"0\"],
-    \"delta\":
-        {\"q1\":{\"e\":[\"q2\",\"q4\"]},
-        \"q2\":{\"0\":[\"q2\"],\"e\":[\"q3\"]},
-        \"q3\":{\"1\":[\"q3\"],\"e\":[\"q6\"]},
-        \"q4\":{\"1\":[\"q4\"],\"e\":[\"q5\"]},
-        \"q5\":{\"0\":[\"q5\"],\"e\":[\"q7\"]}},
-    \"start-state\":\"q1\",
-    \"final-states\":[\"q7\",\"q6\"]},
-    \"pass-cases\":[\"\",\"0\",\"1\",\"00\",\"11\",\"001\",\"110\",\"011\",\"100\",\"0011\",\"1100\"],
-    \"fail-cases\":[\"101\",\"010\",\"11001\",\"00110\",\"0101\",\"1010\"]}
-     */
-
     }
 }

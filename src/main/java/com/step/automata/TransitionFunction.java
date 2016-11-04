@@ -20,26 +20,30 @@ public class TransitionFunction {
 
     public States apply(States currentState, char alphabet) {
         States states = new States();
-        States updatedCurrentStates = resolveEpsilonTransition(currentState);
-        for (State state : updatedCurrentStates) {
+        for (State state : currentState) {
             Transition transitions = getTransition(state);
             States nextStates = transitions.nextStates(alphabet);
+            if (!nextStates.isEmpty()) {
+                States resolveEpsilonTransition = resolveEpsilonTransition(state);
+                states.addAll(resolveEpsilonTransition);
+            }
             states.addAll(nextStates);
         }
         return states;
     }
 
-    private States resolveEpsilonTransition(States currentState) {
+    protected States resolveEpsilonTransition(State state) {
         States states = new States();
-        for (State state : currentState) {
-            Transition transitions = getTransition(state);
-            if (transitions.hasEpsilonTransition()) {
-                States epsilonTransition = transitions.getEpsilonTransition();
-                States stateSet = resolveEpsilonTransition(epsilonTransition);
-                states.addAll(stateSet);
+        Transition transitions = getTransition(state);
+        if (transitions.hasEpsilonTransition()) {
+            States epsilonTransition = transitions.getEpsilonTransition();
+            for (State epsilonState : epsilonTransition) {
+                States nextStates = resolveEpsilonTransition(epsilonState);
+                states.addAll(nextStates);
+                states.add(epsilonState);
+                states.add(state);
             }
         }
-        states.addAll(currentState);
         return states;
     }
 
@@ -68,5 +72,9 @@ public class TransitionFunction {
     @Override
     public int hashCode() {
         return table != null ? table.hashCode() : 0;
+    }
+
+    public States getEpsilonTranstion(States currentStates) {
+        return null;
     }
 }
