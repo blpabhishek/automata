@@ -11,12 +11,13 @@ public class TransitionFunctionTest {
         State q2 = new State("q2");
         TransitionFunction transitionFunction = new TransitionFunction();
         Transition transition = new Transition();
-        transition.defineNextState('0',q2);
-        transitionFunction.addTransition(q1,transition);
+        transition.defineNextState('0', q2);
+        transitionFunction.addTransition(q1, transition);
 
         State nextState = transitionFunction.apply(q1, '0');
         assertEquals(nextState, q2);
     }
+
     @Test
     public void shouldBeAbleToAddMultipleTransitionAndGetBackTheNextStateFromTransitionTable() {
         State stateQ1 = new State("q1");
@@ -30,8 +31,8 @@ public class TransitionFunctionTest {
 
         TransitionFunction transitionFunction = new TransitionFunction();
         Transition transitionQ1 = new Transition();
-        transitionQ1.defineNextState('e',stateQ2);
-        transitionQ1.defineNextState('e',stateQ4);
+        transitionQ1.defineNextState('e', stateQ2);
+        transitionQ1.defineNextState('e', stateQ4);
 
         Transition transitionQ2 = new Transition();
         transitionQ2.defineNextState('0', stateQ3);
@@ -45,7 +46,7 @@ public class TransitionFunctionTest {
         States expected = new States();
         expected.add(stateQ3);
 
-        assertEquals(expected,nextStates);
+        assertEquals(expected, nextStates);
     }
 
     @Test
@@ -63,7 +64,7 @@ public class TransitionFunctionTest {
 
         TransitionFunction transitionFunction = new TransitionFunction();
         Transition transitionQ1 = new Transition();
-        transitionQ1.defineNextState('e',stateQ4);
+        transitionQ1.defineNextState('e', stateQ4);
 
         Transition transitionQ2 = new Transition();
         transitionQ2.defineNextState('0', stateQ3);
@@ -82,6 +83,6 @@ public class TransitionFunctionTest {
         States expected = new States();
         expected.add(stateQ5);
 
-        assertEquals(expected,nextStates);
+        assertEquals(expected, nextStates);
     }
 }

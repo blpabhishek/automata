@@ -21,7 +21,8 @@ public class NFAMachine {
     }
 
     public boolean check(String string) {
-        States currentStates = transitionFunction.resolveEpsilonTransition(initialState);
+        States currentStates = transitionFunction.getEpsilonClosure(initialState);
+        currentStates.add(initialState);
         for (int index = 0; index < string.length(); index++) {
             char alphabet = string.charAt(index);
             validate(alphabet);

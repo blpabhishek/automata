@@ -24,22 +24,22 @@ public class TransitionFunction {
             Transition transitions = getTransition(state);
             States nextStates = transitions.nextStates(alphabet);
             if (!nextStates.isEmpty()) {
-                States resolveEpsilonTransition = resolveEpsilonTransition(state);
-                states.addAll(resolveEpsilonTransition);
+                States epsilonClosure = getEpsilonClosure(state);
+                states.addAll(epsilonClosure);
             }
             states.addAll(nextStates);
         }
         return states;
     }
 
-    protected States resolveEpsilonTransition(State state) {
+    protected States getEpsilonClosure(State state) {
         States states = new States();
         Transition transitions = getTransition(state);
         if (transitions.hasEpsilonTransition()) {
             States epsilonTransition = transitions.getEpsilonTransition();
             for (State epsilonState : epsilonTransition) {
-                States nextStates = resolveEpsilonTransition(epsilonState);
-                states.addAll(nextStates);
+                States epsilonClosure = getEpsilonClosure(epsilonState);
+                states.addAll(epsilonClosure);
                 states.add(epsilonState);
                 states.add(state);
             }

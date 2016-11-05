@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Transition {
     private final Map<Character, States> transitions = new HashMap<>();
-    private Character epsilon = 'e';
+    private final Character EPSILON = 'e';
 
     public void defineNextState(char alphabet, State state) {
         States stateSet = transitions.get(alphabet);
@@ -21,12 +21,12 @@ public class Transition {
     }
 
     public boolean hasEpsilonTransition() {
-        return transitions.containsKey(epsilon);
+        return transitions.containsKey(EPSILON);
     }
 
     public States getEpsilonTransition() {
-        if (transitions.containsKey(epsilon))
-            return transitions.get(epsilon);
+        if (transitions.containsKey(EPSILON))
+            return transitions.get(EPSILON);
         return new States();
     }
 
