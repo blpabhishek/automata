@@ -8,19 +8,20 @@ public class FATestRunner {
     private final String name;
     private final String type;
     private final Tuple tuple;
-    private final FATestCases faTestCases;
+    private final Set<String> passCases;
+    private final Set<String> failCases;
     private final String DFA = "dfa";
 
-    public FATestRunner(String name, String type, Tuple tuple, FATestCases faTestCases) {
+    public FATestRunner(String name, String type, Tuple tuple, Set<String> passCases, Set<String> failCases) {
         this.name = name;
         this.type = type;
         this.tuple = tuple;
-        this.faTestCases = faTestCases;
+        this.passCases = passCases;
+        this.failCases = failCases;
     }
 
     public boolean validatePassCases() {
         Machine dfaMachine = getMachine();
-        Set<String> passCases = faTestCases.getPassCases();
         for (String passCase : passCases) {
             if (!dfaMachine.check(passCase)) {
                 return false;
@@ -31,7 +32,6 @@ public class FATestRunner {
 
     public boolean validateFailCases() {
         Machine dfaMachine = getMachine();
-        Set<String> failCases = faTestCases.getFailCases();
         for (String failCase : failCases) {
             if (dfaMachine.check(failCase)) {
                 return false;
@@ -46,8 +46,7 @@ public class FATestRunner {
         States finalStates = tuple.getFinalStates();
         States states = tuple.getStates();
         TransitionFunction transitionFunction = tuple.getTransitions();
-        if(type.equals(DFA)) return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
+        if (type.equals(DFA)) return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
         return new NFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
-
     }
 }

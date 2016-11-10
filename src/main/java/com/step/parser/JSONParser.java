@@ -62,24 +62,18 @@ public class JSONParser {
         JsonObject jsonObject = element.getAsJsonObject();
         String name = jsonObject.get("name").getAsString();
         String type = jsonObject.get("type").getAsString();
-        JsonObject tuple = jsonObject.get("tuple").getAsJsonObject();
-        Tuple tupleObject = parseTuple(tuple);
-        FATestCases FATestCases = getTestCases(jsonObject);
-        return new FATestRunner(name, type, tupleObject, FATestCases);
-    }
-
-    private FATestCases getTestCases(JsonElement element) {
-        JsonObject jsonObject = element.getAsJsonObject();
         Set<String> passCases = mapToList(jsonObject.get("pass-cases"));
         Set<String> failCases = mapToList(jsonObject.get("fail-cases"));
-        return new FATestCases(passCases, failCases);
+        JsonObject jsonTuple = jsonObject.get("tuple").getAsJsonObject();
+        Tuple tuple = parseTuple(jsonTuple);
+        return new FATestRunner(name, type, tuple, passCases,failCases);
     }
 
     public static JSONParser parse(String jsonString) throws IOException {
         JsonParser parser = new JsonParser();
         String pureJson = jsonString.replaceAll("\\\\", "");
         pureJson = pureJson.substring(1, pureJson.length() - 1);
-        JsonArray jsonArray = (JsonArray) parser.parse(pureJson);
+        JsonArray jsonArray = parser.parse(pureJson).getAsJsonArray();
         return new JSONParser(jsonArray);
     }
 }
