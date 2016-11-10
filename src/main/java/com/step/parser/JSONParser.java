@@ -45,17 +45,38 @@ public class JSONParser {
     private Map<String, Map<String, String>> parseDelta(JsonObject delta, Set<String> states) {
         HashMap<String, Map<String, String>> transitions = new HashMap<>();
         for (String state : states) {
-            String memberName = state.replaceAll("\"", "");
+            String memberName = makeString(state);
             JsonElement jsonElement = delta.get(memberName);
-            Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
-            for (Map.Entry<String, JsonElement> entry : entries) {
-                Map<String, String> hashMap = transitions.get(memberName);
-                if (hashMap == null) hashMap = new HashMap<>();
-                hashMap.put(entry.getKey(), entry.getValue().toString().replaceAll("\"", ""));
-                transitions.put(memberName, hashMap);
+            if (jsonElement != null) {
+                addTransitions(transitions, memberName, jsonElement);
             }
         }
         return transitions;
+    }
+
+    private void addTransitions(HashMap<String, Map<String, String>> transitions, String memberName, JsonElement jsonElement) {
+        Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+        for (Map.Entry<String, JsonElement> entry : entries) {
+            Map<String, String> subTransitions = addSubTransitions(transitions, memberName, entry);
+            transitions.put(memberName, subTransitions);
+        }
+    }
+
+    private Map<String, String> addSubTransitions(HashMap<String, Map<String, String>> transitions, String memberName, Map.Entry<String, JsonElement> entry) {
+        Map<String, String> hashMap = transitions.containsKey(memberName) ? transitions.get(memberName) : new HashMap<String, String>();
+        try {
+            JsonArray asJsonArray = entry.getValue().getAsJsonArray();
+            for (JsonElement element : asJsonArray) {
+                hashMap.put(entry.getKey(), makeString(element.toString()));
+            }
+        } catch (Exception ignored) {
+            hashMap.put(entry.getKey(), makeString(entry.getValue().toString()));
+        }
+        return hashMap;
+    }
+
+    private String makeString(String state) {
+        return state.replaceAll("\"", "");
     }
 
     private FATestRunner parseElement(JsonElement element) {
@@ -66,7 +87,7 @@ public class JSONParser {
         Set<String> failCases = mapToList(jsonObject.get("fail-cases"));
         JsonObject jsonTuple = jsonObject.get("tuple").getAsJsonObject();
         Tuple tuple = parseTuple(jsonTuple);
-        return new FATestRunner(name, type, tuple, passCases,failCases);
+        return new FATestRunner(name, type, tuple, passCases, failCases);
     }
 
     public static JSONParser parse(String jsonString) throws IOException {

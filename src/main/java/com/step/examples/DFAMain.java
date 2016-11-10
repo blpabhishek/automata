@@ -11,7 +11,12 @@ import java.util.List;
 
 public class DFAMain {
     public static void main(String[] args) throws IOException {
-        List<String> textFile = Files.readAllLines(Paths.get("resource/dfa_cases.json"), Charset.forName("UTF-8"));
+        run("resource/dfa_cases.json");
+        run("resource/nfa_cases.json");
+    }
+
+    private static void run(String fileName) throws IOException {
+        List<String> textFile = Files.readAllLines(Paths.get(fileName), Charset.forName("UTF-8"));
         JSONParser jsonParser = JSONParser.parse(textFile.get(0));
         List<FATestRunner> testRunners = jsonParser.getTestRunners();
         for (FATestRunner testRunner : testRunners) {

@@ -45,7 +45,7 @@ public class FATestRunner {
         Set<String> alphabets = tuple.getAlphabets();
         States finalStates = tuple.getFinalStates();
         States states = tuple.getStates();
-        TransitionFunction transitionFunction = tuple.getTransitions();
+        TransitionFunction transitionFunction = tuple.getTransitionsFunction();
         if (type.equals(DFA)) return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
         return new NFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
     }

@@ -85,7 +85,7 @@ public class TupleTest {
         transition.defineNextState('1',q1);
         transitionFunction.addTransition(q0,transition);
 
-        assertEquals(tuple.getTransitions(), transitionFunction);
+        assertEquals(tuple.getTransitionsFunction(), transitionFunction);
     }
 
 }

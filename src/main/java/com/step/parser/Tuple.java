@@ -14,14 +14,14 @@ public class Tuple {
     private final Set<String> alphabets;
     private final String initialState;
     private final Set<String> finalStates;
-    private final Map<String, Map<String, String>> transitions;
+    private final Map<String, Map<String, String>> transitionsFunction;
 
-    public Tuple(Set<String> states, Set<String> alphabets, String initialState, Set<String> finalStates, Map<String, Map<String, String>> transitions) {
+    public Tuple(Set<String> states, Set<String> alphabets, String initialState, Set<String> finalStates, Map<String, Map<String, String>> transitionsFunction) {
         this.states = states;
         this.alphabets = alphabets;
         this.initialState = initialState;
         this.finalStates = finalStates;
-        this.transitions = transitions;
+        this.transitionsFunction = transitionsFunction;
     }
 
     public States getStates() {
@@ -40,20 +40,27 @@ public class Tuple {
         return mapToState(finalStates);
     }
 
-    public TransitionFunction getTransitions() {
+    public TransitionFunction getTransitionsFunction() {
         TransitionFunction transitionFunction = new TransitionFunction();
         for (String state : states) {
-            Map<String, String> subTransition = transitions.get(state);
-            if(subTransition!= null) {
-                Transition transition = new Transition();
-                for (String alphabet : alphabets) {
-                    String nextState = subTransition.get(alphabet);
-                    transition.defineNextState(alphabet.charAt(0), new State(nextState));
-                }
+            Map<String, String> transitionFun = transitionsFunction.get(state);
+            if(transitionFun!= null) {
+                Transition transition = getTransition(transitionFun);
                 transitionFunction.addTransition(new State(state), transition);
             }
         }
         return transitionFunction;
+    }
+
+    private Transition getTransition(Map<String, String> transitionFunction) {
+        Transition transition = new Transition();
+        for (String alphabet : alphabets) {
+            String nextState = transitionFunction.get(alphabet);
+            if(nextState!=null) {
+                transition.defineNextState(alphabet.charAt(0), new State(nextState));
+            }
+        }
+        return transition;
     }
 
     private States mapToState(Set<String> states) {
