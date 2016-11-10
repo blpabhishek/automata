@@ -30,10 +30,14 @@ public class TupleTest {
         Set<String> setOfFinalStates = new HashSet<>();
         setOfFinalStates.add(q0);
 
-        Map<String, Map<String, String>> transitions = new HashMap<>();
-        HashMap<String, String> subTransition = new HashMap<>();
-        subTransition.put("0", q0);
-        subTransition.put("1", q1);
+        Map<String, Map<String, Set<String>>> transitions = new HashMap<>();
+        HashMap<String, Set<String>> subTransition = new HashMap<>();
+        HashSet<String> q1Pos = new HashSet<>();
+        q1Pos.add(q0);
+        subTransition.put("0", q1Pos);
+        HashSet<String> q2Pos = new HashSet<>();
+        q2Pos.add(q1);
+        subTransition.put("1", q2Pos);
         transitions.put(q0, subTransition);
 
         tuple = new Tuple(setOfStates, alphabetSet, q0, setOfFinalStates, transitions);

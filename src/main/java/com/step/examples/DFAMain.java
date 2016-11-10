@@ -11,8 +11,8 @@ import java.util.List;
 
 public class DFAMain {
     public static void main(String[] args) throws IOException {
-        run("resource/dfa_cases.json");
         run("resource/nfa_cases.json");
+        //run("resource/some_cases.json");
     }
 
     private static void run(String fileName) throws IOException {
@@ -20,8 +20,14 @@ public class DFAMain {
         JSONParser jsonParser = JSONParser.parse(textFile.get(0));
         List<FATestRunner> testRunners = jsonParser.getTestRunners();
         for (FATestRunner testRunner : testRunners) {
-            testRunner.validatePassCases();
-            testRunner.validateFailCases();
+            boolean pass = testRunner.validatePassCases();
+            boolean fail = testRunner.validateFailCases();
+            if (!pass) {
+                System.err.println("pass Cases: " + testRunner.getName());
+            }
+            if (!fail) {
+                System.err.println("fail Cases: " + testRunner.getName());
+            }
         }
     }
 }

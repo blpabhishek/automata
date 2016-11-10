@@ -10,7 +10,6 @@ public class FATestRunner {
     private final Tuple tuple;
     private final Set<String> passCases;
     private final Set<String> failCases;
-    private final String DFA = "dfa";
 
     public FATestRunner(String name, String type, Tuple tuple, Set<String> passCases, Set<String> failCases) {
         this.name = name;
@@ -41,12 +40,10 @@ public class FATestRunner {
     }
 
     public Machine getMachine() {
-        State initialState = tuple.getInitialState();
-        Set<String> alphabets = tuple.getAlphabets();
-        States finalStates = tuple.getFinalStates();
-        States states = tuple.getStates();
-        TransitionFunction transitionFunction = tuple.getTransitionsFunction();
-        if (type.equals(DFA)) return new DFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
-        return new NFAMachine(initialState, transitionFunction, finalStates, states, alphabets);
+        return tuple.getMachine(type);
+    }
+
+    public String getName() {
+        return name;
     }
 }

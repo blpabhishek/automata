@@ -209,4 +209,55 @@ public class NFAMachineTest {
         assertFalse(machine.check("0101"));
         assertFalse(machine.check("1010"));
     }
+
+    private NFAMachine getSparseZeroSandwichAnyNumberOf1sWithUtmostOneZero() {
+        Set<String> alphabetSet = new HashSet<>();
+        alphabetSet.add("0");
+        alphabetSet.add("1");
+
+        State stateQ1 = new State("q1");
+        State stateQ2 = new State("q2");
+
+        States setOfStates = new States();
+        setOfStates.add(stateQ1);
+        setOfStates.add(stateQ2);
+
+        States setOfFinalStates = new States();
+        setOfFinalStates.add(stateQ2);
+
+        TransitionFunction transitionFunction = new TransitionFunction();
+
+        Transition transitionQ1 = new Transition();
+        transitionQ1.defineNextState('e', stateQ2);
+        transitionQ1.defineNextState('0', stateQ2);
+        transitionQ1.defineNextState('1', stateQ1);
+
+        Transition transitionQ2 = new Transition();
+        transitionQ2.defineNextState('1', stateQ2);
+
+        transitionFunction.addTransition(stateQ1, transitionQ1);
+        transitionFunction.addTransition(stateQ2, transitionQ2);
+
+        return new NFAMachine(stateQ1, transitionFunction, setOfFinalStates, setOfStates, alphabetSet);
+    }
+
+    @Test
+    public void shouldBeAbleToRecognizeTheSpecifiedLanguage() {
+        NFAMachine machine = getSparseZeroSandwichAnyNumberOf1sWithUtmostOneZero();
+        assertTrue(machine.check("1"));
+        assertTrue(machine.check("11"));
+        assertTrue(machine.check("101"));
+        assertTrue(machine.check("110"));
+        assertTrue(machine.check("01"));
+        assertTrue(machine.check("011"));
+        assertTrue(machine.check("1111"));
+
+        assertFalse(machine.check("00"));
+        assertFalse(machine.check("010"));
+        assertFalse(machine.check("100"));
+        assertFalse(machine.check("110011"));
+        assertFalse(machine.check("0101"));
+        assertFalse(machine.check("1010"));
+
+    }
 }

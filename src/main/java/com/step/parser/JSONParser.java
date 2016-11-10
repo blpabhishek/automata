@@ -38,12 +38,12 @@ public class JSONParser {
         String startStates = tuple.get("start-state").getAsString();
         Set<String> finalStates = mapToList(tuple.get("final-states"));
         JsonObject delta = tuple.get("delta").getAsJsonObject();
-        Map<String, Map<String, String>> transitions = parseDelta(delta, states);
+        HashMap<String, Map<String, Set<String>>> transitions = parseDelta(delta, states);
         return new Tuple(states, alphabets, startStates, finalStates, transitions);
     }
 
-    private Map<String, Map<String, String>> parseDelta(JsonObject delta, Set<String> states) {
-        HashMap<String, Map<String, String>> transitions = new HashMap<>();
+    private HashMap<String, Map<String, Set<String>>> parseDelta(JsonObject delta, Set<String> states) {
+        HashMap<String, Map<String, Set<String>>> transitions = new HashMap<>();
         for (String state : states) {
             String memberName = makeString(state);
             JsonElement jsonElement = delta.get(memberName);
@@ -54,24 +54,24 @@ public class JSONParser {
         return transitions;
     }
 
-    private void addTransitions(HashMap<String, Map<String, String>> transitions, String memberName, JsonElement jsonElement) {
+    private void addTransitions(HashMap<String, Map<String, Set<String>>> transitions, String memberName, JsonElement jsonElement) {
         Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
         for (Map.Entry<String, JsonElement> entry : entries) {
-            Map<String, String> subTransitions = addSubTransitions(transitions, memberName, entry);
+            Map<String, Set<String>> subTransitions = addSubTransitions(transitions, memberName, entry);
             transitions.put(memberName, subTransitions);
         }
     }
 
-    private Map<String, String> addSubTransitions(HashMap<String, Map<String, String>> transitions, String memberName, Map.Entry<String, JsonElement> entry) {
-        Map<String, String> hashMap = transitions.containsKey(memberName) ? transitions.get(memberName) : new HashMap<String, String>();
+    private Map<String, Set<String>> addSubTransitions(HashMap<String, Map<String, Set<String>>> transitions, String memberName, Map.Entry<String, JsonElement> entry) {
+        Map<String, Set<String>> hashMap = transitions.containsKey(memberName) ? transitions.get(memberName) : new HashMap<String, Set<String>>();
+        Set<String> sets = new HashSet<>();
         try {
             JsonArray asJsonArray = entry.getValue().getAsJsonArray();
-            for (JsonElement element : asJsonArray) {
-                hashMap.put(entry.getKey(), makeString(element.toString()));
-            }
+            sets = mapToList(asJsonArray);
         } catch (Exception ignored) {
-            hashMap.put(entry.getKey(), makeString(entry.getValue().toString()));
+            sets.add(makeString(entry.getValue().toString()));
         }
+        hashMap.put(entry.getKey(), sets);
         return hashMap;
     }
 
