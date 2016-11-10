@@ -17,7 +17,7 @@ public class DFAMachineTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    private DFAMachine getDfaMachine() {
+    private Machine getDfaMachine() {
         Set<String> alphabetSet = new HashSet<>();
         alphabetSet.add("0");
         alphabetSet.add("1");
@@ -43,19 +43,19 @@ public class DFAMachineTest {
 
     @Test
     public void shouldBeAbleToRunADFAMachineAndAcceptAString() {
-        DFAMachine machine = getDfaMachine();
+        Machine machine = getDfaMachine();
         assertTrue(machine.check("0000"));
     }
 
     @Test
     public void shouldBeAbleToRunADFAMachineAndRejectAString() {
-        DFAMachine machine = getDfaMachine();
+        Machine machine = getDfaMachine();
         assertFalse(machine.check("0001"));
     }
 
     @Test
     public void shouldNotAbleToRecognizeAStringWhichContainsAlphabetWhichIsNotInAlphabetSet() {
-        DFAMachine machine = getDfaMachine();
+        Machine machine = getDfaMachine();
         exception.expect(IllegalAlphabetException.class);
         exception.expectMessage("Alphabet 2 does not belongs to alphabet set");
         assertFalse(machine.check("0021"));

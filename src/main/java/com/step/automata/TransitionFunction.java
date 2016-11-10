@@ -73,8 +73,4 @@ public class TransitionFunction {
     public int hashCode() {
         return table != null ? table.hashCode() : 0;
     }
-
-    public States getEpsilonTranstion(States currentStates) {
-        return null;
-    }
 }

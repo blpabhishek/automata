@@ -5,7 +5,7 @@ import com.step.exceptions.IllegalStateException;
 
 import java.util.Set;
 
-public class DFAMachine {
+public class DFAMachine implements Machine {
 
 
     private final Set<String> alphabets;
@@ -22,6 +22,7 @@ public class DFAMachine {
         this.initialState = initialState;
     }
 
+    @Override
     public boolean check(String string) {
         State currentState = initialState;
         for (int index = 0; index < string.length(); index++) {

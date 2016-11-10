@@ -5,7 +5,7 @@ import com.step.exceptions.IllegalStateException;
 
 import java.util.Set;
 
-public class NFAMachine {
+public class NFAMachine implements Machine{
     private final Set<String> alphabets;
     private final States allStates;
     private final States finalStates;
@@ -20,6 +20,7 @@ public class NFAMachine {
         this.initialState = initialState;
     }
 
+    @Override
     public boolean check(String string) {
         States currentStates = transitionFunction.getEpsilonClosure(initialState);
         currentStates.add(initialState);
