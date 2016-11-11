@@ -23,11 +23,23 @@ public class TransitionFunction {
         for (State state : currentState) {
             Transition transitions = getTransition(state);
             States nextStates = transitions.nextStates(alphabet);
-            if (!nextStates.isEmpty()) {
-                States epsilonClosure = getEpsilonClosure(state);
-                states.addAll(epsilonClosure);
-            }
+            for (State nextState : nextStates)
+                getEpsilonClosure(nextState, states);
             states.addAll(nextStates);
+        }
+        return states;
+    }
+
+    private States getEpsilonClosure(State state, States currentState) {
+        States states = new States();
+        Transition transitions = getTransition(state);
+        States epsilonTransition = transitions.getEpsilonTransition();
+        states.addAll(epsilonTransition);
+        currentState.add(state);
+        for (State epsilon : epsilonTransition) {
+            if (!currentState.contains(epsilon)) {
+                getEpsilonClosure(epsilon, currentState);
+            }
         }
         return states;
     }
@@ -35,15 +47,12 @@ public class TransitionFunction {
     protected States getEpsilonClosure(State state) {
         States states = new States();
         Transition transitions = getTransition(state);
-        if (transitions.hasEpsilonTransition()) {
-            States epsilonTransition = transitions.getEpsilonTransition();
-            for (State epsilonState : epsilonTransition) {
-                States epsilonClosure = getEpsilonClosure(epsilonState);
-                states.addAll(epsilonClosure);
-                states.add(epsilonState);
-                states.add(state);
-            }
+        States epsilonTransition = transitions.getEpsilonTransition();
+        for (State epsilon : epsilonTransition) {
+            getEpsilonClosure(epsilon, states);
         }
+        states.addAll(epsilonTransition);
+        states.add(state);
         return states;
     }
 

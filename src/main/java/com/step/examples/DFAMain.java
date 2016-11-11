@@ -20,13 +20,13 @@ public class DFAMain {
         JSONParser jsonParser = JSONParser.parse(textFile.get(0));
         List<FATestRunner> testRunners = jsonParser.getTestRunners();
         for (FATestRunner testRunner : testRunners) {
-            boolean pass = testRunner.validatePassCases();
-            boolean fail = testRunner.validateFailCases();
-            if (!pass) {
-                System.err.println("pass Cases: " + testRunner.getName());
+            boolean passStatus = testRunner.validatePassCases();
+            boolean failStatus = testRunner.validateFailCases();
+            if (!passStatus) {
+                System.err.println("pass Cases for : " + testRunner.getName());
             }
-            if (!fail) {
-                System.err.println("fail Cases: " + testRunner.getName());
+            if (!failStatus) {
+                System.err.println("fail Cases for : " + testRunner.getName());
             }
         }
     }
